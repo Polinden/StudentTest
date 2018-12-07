@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Test-List>
+<questions>
+    <question>
+        <text>Why?</text>
+        <image_file>...</image_file>
+        <multy>Yes</multy>
+        <answers>
+            <answer>No</answer>
+            <answer>Oh</answer>
+            <answer>Wov</answer>
+        </answers>
+        <rightanswers>
+            <answer>1</answer>
+        </rightanswers>
+    </question>
+</questions>
