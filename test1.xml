@@ -12,6 +12,20 @@
         </answers>
         <rightanswers>
             <answer>1</answer>
+            <answer>2</answer>
+        </rightanswers>
+    </question>
+    <question>
+        <text>Who?</text>
+        <image_file>...</image_file>
+        <multy>No</multy>
+        <answers>
+            <answer>He</answer>
+            <answer>She</answer>
+            <answer>Me</answer>
+        </answers>
+        <rightanswers>
+            <answer>2</answer>
         </rightanswers>
     </question>
 </questions>
