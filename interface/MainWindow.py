@@ -3,6 +3,7 @@ import tkinter.filedialog as fdialog
 import random
 
 
+
 class MainFrame(Frame):
 
     def __init__(self, root):
@@ -22,6 +23,7 @@ class MainFrame(Frame):
         self.grid_rowconfigure(2, weight=0)
         #stubs
         self.RegisterListener()
+
 
 
     def CreateMenu(self, root):
@@ -64,6 +66,7 @@ class MainFrame(Frame):
         # special case (not flex)
         self.frames['test'].grid_rowconfigure(0, weight=0)
         self.frames['test'].grid_rowconfigure(2, weight=0)
+        self.ClearSubFrame(self.frames['subframe'])
 
 
     def ClearSubFrame(self, sf):
@@ -72,36 +75,40 @@ class MainFrame(Frame):
             child.destroy()
 
 
+
     def CreateQuestion(self):
-        self.question_lable=Label(self.frames['question'], text='Питання', fg='green')
+        self.question_lable=Label(self.frames['question'], text='Питання', fg='green', width=350, anchor=W)
         self.question_lable.grid(row=0, column=0, sticky=(N, W))
+        self.image_lable = Label(self.frames['question'])
+        self.image_lable.grid(row=1, column=0, sticky=(W, N, E))
+        self.qwest_message=Message(self.frames['question'], text=self.fmtQw(), width=350, anchor=N)
+        self.qwest_message.grid(row=2, column=0, sticky=(N, S, W, E))
         self.AllRowColFlexible(self.frames['question'])
         # special case (not flex)
         self.frames['question'].grid_rowconfigure(0, weight=0)
-        self.qwest_message=Message(self.frames['question'], text=' '*400, width=250, anchor=N)
-        self.qwest_message.grid(row=1, column=0, sticky=(N, S, W, E))
+        self.frames['question'].grid_rowconfigure(1, weight=0)
 
 
-    def CreateAnswer(self, data=''):
-        Label(self.frames['answer'], text='Правильна вiдповiдь', fg='green').grid(row=0, column=0, columnspan=2,sticky=(N, W))
+    def CreateAnswer(self):
+        Label(self.frames['answer'], text='Правильна вiдповiдь', fg='green',  width=350, anchor=W).grid(row=0, column=0, columnspan=2,sticky=(N, W))
         self.next_button=Button(self.frames['answer'], text='Продовжити', state=DISABLED, command=self.Next)
         self.next_button.grid(row=2, column=0, sticky=(S, W, N, E), padx=(10, 10),pady=(20, 10))
         self.skip_button=Button(self.frames['answer'], text='Пропустити', state=DISABLED, command=self.Skip)
         self.skip_button.grid(row=2, column=1, sticky=(S, W, N, E), padx=(10, 10),pady=(20, 10))
+        self.answ_message = Message(self.frames['answer'], text=self.fmtQw(), width=350, anchor=NW)
+        self.answ_message.grid(row=1, column=0, columnspan=2, sticky=(N, W, E, S))
         self.AllRowColFlexible(self.frames['answer'])
         self.frames['answer'].grid_rowconfigure(2, weight=0)
-        self.answ_message = Message(self.frames['answer'], text=' '*200, width=200, anchor=N)
-        self.answ_message.grid(row=1, column=0, columnspan=2, sticky=(N, W))
 
 
 
-    def SetCheckList(self, data=[], check=True):
+    def SetCheckList(self, data=None, check=True):
         #clear frame
         self.ClearSubFrame(self.frames['subframe'])
-        result_set = []
-        result = IntVar(0)
+        if not data: return
+        result_set, result  = [], IntVar(0)
         for i, dat in enumerate(data):
-            Label(self.frames['subframe'], text=dat).grid(row=i, column=1, sticky=(N, W))
+            Message(self.frames['subframe'], text=self.fmtAw(dat), width=330, anchor=NW).grid(row=i, column=1, sticky=(N, W, E, S))
             #tkinter type to link with check-radio
             r=IntVar(0)
             result_set.append(r)
@@ -115,19 +122,21 @@ class MainFrame(Frame):
 
 
     def SetQuestion(self, data='', image=None):
-        data = data.center(400, ' ')
         self.FinalViewOfQuestionFrame(False)
-        self.qwest_message['text'] = data
+        self.qwest_message['text'] = self.fmtQw(data)
         if image:
-            pass
+            self.image = PhotoImage(file=image)
+            self.image_lable['image'] = self.image
+        else:
+            self.image_lable['image']=''
+
 
     def SetAnswer(self, data=''):
         self.EnableNextButton(bool(data))
         if data:
             self.EnableAnswertButton(False)
             self.EnableSkipButton(False)
-        data = data.center(200, ' ')
-        self.answ_message['text'] = data
+        self.answ_message['text'] = self.fmtQw(data)
 
 
     def SetFinalInfo(self, data=''):
@@ -225,13 +234,20 @@ class MainFrame(Frame):
         else:
             return True
 
+    #format question and answer
+    def fmtQw(self, text=''):
+        return text.ljust(800, ' ')[:800] if text else ' '*800
+
+    def fmtAw(self, text=''):
+        return text.ljust(200, ' ')[:200] if text else ' '*200
+
 
 #thisd is an entry point
 #only give it your listeners
 def StartGUI(answer=None, next=None, skip=None, open=None, save=None):
     root=Tk()
     root.title('Тестування для ліцеїстів')
-    root.geometry('700x500')
+    root.geometry('820x550')
     main_frame=MainFrame(root)
     main_frame.RegisterListener(answer, next, skip, open, save)
     mainloop()
@@ -258,7 +274,7 @@ def Test_Question(mf):
     random.shuffle(mode)
     random.shuffle(questions)
     mf.SetCheckList(questions[0][1], mode[0])
-    mf.SetQuestion(questions[0][0])
+    mf.SetQuestion(questions[0][0], image='../test_im1.png')
     mf.SetAnswer()
 
 def Test_Answer(mf):

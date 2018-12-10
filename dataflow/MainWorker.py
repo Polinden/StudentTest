@@ -25,17 +25,17 @@ class DataControl:
    def KeepOnTest(self, mf):
         if len(self.data)==0:
            #finish
-           final_text='You have got {} right answer!'.format(self.answer_stat.count(True))
-           mf.SetFinalInfo(final_text)
+           ok_aw, notok_aw=self.answer_stat.count(True), self.answer_stat.count(False)
+           mf.SetFinalInfo('You have got {} right answer form {}'.format(ok_aw, notok_aw+ok_aw))
         else:
            self.cur_dat= self.data.pop()
            mf.SetAnswer()
-           mf.SetQuestion(self.cur_dat[0])         
+           mf.SetQuestion(self.cur_dat[0], image=self.cur_dat[1])
            mf.SetCheckList(self.cur_dat[3], self.cur_dat[2].lower()=='yes') 
 
            
    def Answer(self, mf):
-       right_text=', '.join([self.cur_dat[3][int(i)-1] for i in self.cur_dat[4]])     
+       right_text='; '.join([self.cur_dat[3][int(i)-1] for i in self.cur_dat[4]])     
        mf.SetAnswer(right_text)
        res=mf.GetResults()     
        if isinstance(res, list): 

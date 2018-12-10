@@ -2,13 +2,13 @@
 <!DOCTYPE Test-List>
 <questions>
     <question>
-        <text>Why?</text>
-        <image_file>...</image_file>
+        <text>Why all clever people on th Earth in XXI century have to study Python every day?</text>
+        <image_file></image_file>
         <multy>Yes</multy>
         <answers>
-            <answer>No</answer>
-            <answer>Oh</answer>
-            <answer>Wov</answer>
+            <answer>To earn more money</answer>
+            <answer>To get smarter, take parts in startups and to make a grate career</answer>
+            <answer>To let father keep on talking his boring things all the night</answer>
         </answers>
         <rightanswers>
             <answer>1</answer>
@@ -16,13 +16,13 @@
         </rightanswers>
     </question>
     <question>
-        <text>Who?</text>
-        <image_file>...</image_file>
+        <text>What do you think, Who is this girl on the picture?</text>
+        <image_file>test_im1.png</image_file>
         <multy>No</multy>
         <answers>
-            <answer>He</answer>
-            <answer>She</answer>
-            <answer>Me</answer>
+            <answer>Angeline Jolie after having a fight with Bred Pit in a new Blockbuster 'Kill Me or I kill You'</answer>
+            <answer>Polina Lipnitskaya</answer>
+            <answer>It could be a new photo of Ivanka Trump</answer>
         </answers>
         <rightanswers>
             <answer>2</answer>
