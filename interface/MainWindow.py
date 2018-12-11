@@ -77,7 +77,7 @@ class MainFrame(Frame):
 
 
     def CreateQuestion(self):
-        self.question_lable=Label(self.frames['question'], text='Питання', fg='green', width=350, anchor=W)
+        self.question_lable=Label(self.frames['question'], text='Питання', fg='green', width=45, anchor=W)
         self.question_lable.grid(row=0, column=0, sticky=(N, W))
         self.image_lable = Label(self.frames['question'])
         self.image_lable.grid(row=1, column=0, sticky=(W, N, E))
@@ -90,7 +90,7 @@ class MainFrame(Frame):
 
 
     def CreateAnswer(self):
-        Label(self.frames['answer'], text='Правильна вiдповiдь', fg='green',  width=350, anchor=W).grid(row=0, column=0, columnspan=2,sticky=(N, W))
+        Label(self.frames['answer'], text='Правильна вiдповiдь', fg='green',  width=45, anchor=W).grid(row=0, column=0, columnspan=2,sticky=(N, W))
         self.next_button=Button(self.frames['answer'], text='Продовжити', state=DISABLED, command=self.Next)
         self.next_button.grid(row=2, column=0, sticky=(S, W, N, E), padx=(10, 10),pady=(20, 10))
         self.skip_button=Button(self.frames['answer'], text='Пропустити', state=DISABLED, command=self.Skip)
@@ -139,21 +139,37 @@ class MainFrame(Frame):
         self.answ_message['text'] = self.fmtQw(data)
 
 
-    def SetFinalInfo(self, data=''):
+    def SetFinalInfo(self, data='', proc_data=None):
         self.SetCheckList()
         self.SetAnswer()
         self.SetQuestion(data)
         self.FinalViewOfQuestionFrame(True)
         self.test_menu.entryconfigure(1, state=NORMAL)
+        self.MakePieChart(proc_data)
 
 
     def FinalViewOfQuestionFrame(self, st):
         if st:
             self.question_lable['text'] = 'Ваши реузльтаты теста'
-            self.question_lable['fg'] = 'red'
+            self.question_lable['fg'] = 'blue'
         else:
             self.question_lable['text'] = 'Питання'
             self.question_lable['fg'] = 'green'
+
+
+    def MakePieChart(self, proc_data=None):
+        grad_won, proc_won = proc_data*360, round(proc_data * 100)
+        grad_loss,  proc_loss = 360-grad_won, 100-proc_won
+        c = Canvas(self.frames['subframe'], width=340, height=210)
+        c.grid(row=0, column=0)
+        c.create_text(240, 10, fill='green', text='success={}%'.format(proc_won))
+        c.create_text(240, 200, fill='red', text='failour={}%'.format(proc_loss))
+        if proc_won and proc_loss:
+            start_grad = 90 - grad_won//2
+            c.create_arc((170, 30, 320, 180), fill="green", start=start_grad, extent=grad_won)
+            c.create_arc((170, 30, 320, 180), fill="red", start=start_grad+grad_won, extent=grad_loss)
+        else:
+            c.create_oval(170, 30, 320, 180, fill="green" if proc_won else "red")
 
 
     def EnableNextButton(self, st):
@@ -236,10 +252,10 @@ class MainFrame(Frame):
 
     #format question and answer
     def fmtQw(self, text=''):
-        return text.ljust(800, ' ')[:800] if text else ' '*800
+        return text[:800]
 
     def fmtAw(self, text=''):
-        return text.ljust(200, ' ')[:200] if text else ' '*200
+        return text[:200]
 
 
 #thisd is an entry point
@@ -247,7 +263,7 @@ class MainFrame(Frame):
 def StartGUI(answer=None, next=None, skip=None, open=None, save=None):
     root=Tk()
     root.title('Тестування для ліцеїстів')
-    root.geometry('820x550')
+    root.geometry('1000x550')
     main_frame=MainFrame(root)
     main_frame.RegisterListener(answer, next, skip, open, save)
     mainloop()

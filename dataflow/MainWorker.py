@@ -28,17 +28,22 @@ class DataControl:
         if len(self.data)==0:
            #finish
            ok_aw, notok_aw=self.answer_stat.count(True), self.answer_stat.count(False)
-           mf.SetFinalInfo('You have got {} right answer form {}'.format(ok_aw, notok_aw+ok_aw))
+           proc_data=ok_aw/(ok_aw+notok_aw)
+           text_data='You have got {} right answer form {}'.format(ok_aw, notok_aw+ok_aw)
+           mf.SetFinalInfo(text_data, proc_data)
         else:
            self.cur_dat= self.data.pop()
+           image_path=os.path.join(self.dirname, self.cur_dat[1]) if self.cur_dat[1] else None
+           mf.SetQuestion(self.cur_dat[0], image=image_path)
+           mf.SetCheckList(self.cur_dat[3], self.cur_dat[2].lower()=='yes')
            mf.SetAnswer()
-           mf.SetQuestion(self.cur_dat[0], image=os.path.join(self.dirname, self.cur_dat[1]) if self.cur_dat[1] else None)
-           mf.SetCheckList(self.cur_dat[3], self.cur_dat[2].lower()=='yes') 
 
            
    def Answer(self, mf):
-       right_text=(';'+os.linesep).join([u'\u16EB '+self.cur_dat[3][int(i)-1] for i in self.cur_dat[4]])     
-       mf.SetAnswer(right_text)
+       start_line_symbol=u'\u16EB '
+       end_line_symbol=';'+os.linesep
+       right_answer_text=end_line_symbol.join([start_line_symbol+self.cur_dat[3][int(i)-1] for i in self.cur_dat[4]])
+       mf.SetAnswer(right_answer_text)
        res=mf.GetResults()     
        if isinstance(res, list): 
           res=[i+1 for i,_ in enumerate(res) if _>0]
@@ -48,7 +53,5 @@ class DataControl:
        right_res=[int(i) for i in self.cur_dat[4]]
        self.answer_stat.append(right_res==res)
 
+         
 
-         
-         
-         
