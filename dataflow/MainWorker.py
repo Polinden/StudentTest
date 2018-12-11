@@ -1,5 +1,5 @@
 import xml.etree.ElementTree as ET
-
+import os
 
 class DataControl:
 
@@ -7,6 +7,7 @@ class DataControl:
         self.data=[]
         self.cur_dat=None
         self.answer_stat=[]
+        self.dirname=''
 
 
    def XMLParser(self, file):
@@ -17,6 +18,7 @@ class DataControl:
         self.data=[[*map(get_text, child)] for child in d]
 
    def StartTest(self, mf, file):
+        self.dirname=os.path.dirname(file.name)
         self.XMLParser(file)
         self.answer_stat=[]
         self.KeepOnTest(mf)
@@ -30,12 +32,12 @@ class DataControl:
         else:
            self.cur_dat= self.data.pop()
            mf.SetAnswer()
-           mf.SetQuestion(self.cur_dat[0], image=self.cur_dat[1])
+           mf.SetQuestion(self.cur_dat[0], image=os.path.join(self.dirname, self.cur_dat[1]) if self.cur_dat[1] else None)
            mf.SetCheckList(self.cur_dat[3], self.cur_dat[2].lower()=='yes') 
 
            
    def Answer(self, mf):
-       right_text='; '.join([self.cur_dat[3][int(i)-1] for i in self.cur_dat[4]])     
+       right_text=(';'+os.linesep).join([u'\u16EB '+self.cur_dat[3][int(i)-1] for i in self.cur_dat[4]])     
        mf.SetAnswer(right_text)
        res=mf.GetResults()     
        if isinstance(res, list): 

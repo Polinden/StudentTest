@@ -3,4 +3,4 @@ from dataflow.MainWorker import DataControl
 
 
 dc=DataControl()
-StartGUI(open=dc.StartTest, next=dc.KeepOnTest, answer=dc.Answer)
+StartGUI(open=dc.StartTest, skip=dc.Answer, next=dc.KeepOnTest, answer=dc.Answer)

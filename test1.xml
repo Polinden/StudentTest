@@ -7,7 +7,7 @@
         <multy>Yes</multy>
         <answers>
             <answer>To earn more money</answer>
-            <answer>To get smarter, take parts in startups and to make a grate career</answer>
+            <answer>To get smarter, take parts in startups and to make a great career</answer>
             <answer>To let father keep on talking his boring things all the night</answer>
         </answers>
         <rightanswers>
@@ -16,7 +16,7 @@
         </rightanswers>
     </question>
     <question>
-        <text>What do you think, Who is this girl on the picture?</text>
+        <text>What do you think, Who is this girl in the picture?</text>
         <image_file>test_im1.png</image_file>
         <multy>No</multy>
         <answers>
@@ -26,6 +26,19 @@
         </answers>
         <rightanswers>
             <answer>2</answer>
+        </rightanswers>
+    </question>
+    <question>
+        <text>Who do you think is shown in the picture? Is it a politician or a sportsman? Or who? </text>
+        <image_file>test_im2.png</image_file>
+        <multy>No</multy>
+        <answers>
+            <answer>It is Santa Claus</answer>
+            <answer>Napoleon Bonaparte</answer>
+            <answer>Gruffalo</answer>
+        </answers>
+        <rightanswers>
+            <answer>3</answer>
         </rightanswers>
     </question>
 </questions>
