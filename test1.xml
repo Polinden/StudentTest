@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE Test-List>
-<questions>
+<questions 
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+            xsi:noNamespaceSchemaLocation="test.xsd">
     <question>
         <text>Why all clever people on th Earth in XXI century have to study Python every day?</text>
         <image_file></image_file>
