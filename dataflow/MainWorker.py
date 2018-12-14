@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 import datetime
 import os
-
+import random
 
 class DataControl:
     """
@@ -35,6 +35,7 @@ class DataControl:
             get_text = lambda gch: [ggch.text for ggch in gch] if len(gch) > 0 else gch.text
             # apply lambda to the TOPLIST
             self.data = [[*(map(get_text, child))] for child in toplist]
+            random.shuffle(self.data)
         except:
             self.data = []
 
